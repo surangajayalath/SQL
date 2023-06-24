@@ -165,3 +165,10 @@ DELETE FROM customers
 WHERE customer_id = 1;
 ```
 
+```
+SELECT product_id,product_name, AVG(price) as avg_price FROM products GROUP BY product_name;
+SELECT product_id,product_name, MIN(price) as avg_price FROM products GROUP BY product_name;
+SELECT product_id,product_name, MAX(price) as avg_price FROM products GROUP BY product_name;
+SELECT product_id,product_name, SUM(price) as avg_price FROM products GROUP BY product_name;
+SELECT product_id,product_name, COUNT(price) as avg_price FROM products GROUP BY product_name;
+```
