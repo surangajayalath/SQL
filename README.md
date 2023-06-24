@@ -99,6 +99,10 @@ SELECT *
 FROM sales.customers
 WHERE customer_name = 'John Smith' AND email = 'john.smith@example.com';
 ```
+SELECT product_name,price FROM products WHERE product_name = 'Widget A' AND price > '8.00';
+SELECT product_id, price FROM products;
+```
+
 
 # AS
 - The "AS" syntax in SQL is used for aliasing, which provides a way to assign temporary names or labels to tables or columns in a query. There are several reasons why you might use the "AS" syntax:
@@ -123,12 +127,14 @@ FROM customers
 WHERE customer_name LIKE '100 \% escape \';
 ```
 
+
+
 # Order By
 - ASC
 ```
 SELECT product_id, product_name, price
 FROM products
-ORDER BY price DESC, product_name ASC;
+ORDER BY price ASC;
 ```
 - DESC
 ```
