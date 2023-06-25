@@ -172,3 +172,139 @@ SELECT product_id,product_name, MAX(price) as avg_price FROM products GROUP BY p
 SELECT product_id,product_name, SUM(price) as avg_price FROM products GROUP BY product_name;
 SELECT product_id,product_name, COUNT(price) as avg_price FROM products GROUP BY product_name;
 ```
+
+
+
+
+
+
+# Foreign Key
+```
+-- Create the customers table
+CREATE TABLE sales.customers (
+  customer_id INT PRIMARY KEY,
+  customer_name VARCHAR(100),
+  email VARCHAR(100),
+  phone VARCHAR(20),
+  address VARCHAR(200)
+);
+
+-- Create the products table with a foreign key reference to customers
+CREATE TABLE sales.products (
+  product_id INT PRIMARY KEY,
+  product_name VARCHAR(100),
+  price DECIMAL(10,2),
+  description VARCHAR(200),
+  customer_id INT,
+  FOREIGN KEY (customer_id) REFERENCES sales.customers(customer_id)
+);
+
+-- Insert data into the customers table
+INSERT INTO sales.customers (customer_id, customer_name, email, phone, address)
+VALUES
+  (1, 'John Doe', 'john@example.com', '1234567890', '123 Main St'),
+  (2, 'Mary Johnson', 'mary@example.com', '5555555555', '789 Oak St'),
+  (3, 'Robert Smith', 'robert@example.com', '9999999999', '321 Pine St'),
+  (4, 'Emily Davis', 'emily@example.com', '1111111111', '987 Maple Ave');
+  (5, 'Jane Smith', 'jane@example.com', '9876543210', '456 Elm St');
+
+-- Insert data into the products table
+INSERT INTO sales.products (product_id, product_name, price, description, customer_id)
+VALUES
+  (1, 'Widget A', 10.99, 'Description for Widget A', 1),
+  (2, 'Widget C', 19.99, 'Description for Widget C', 3),
+  (3, 'Widget D', 24.99, 'Description for Widget D', 4),
+  (4, 'Widget E', 29.99, 'Description for Widget E', 5);
+  (5, 'Widget B', 15.99, 'Description for Widget B', 2);
+```
+
+## Remove duplicates and give unique details
+```
+select distinct product_name from products;
+```
+
+## Having
+```
+select product_name, avg (price) as avg_price from products group by product_name having avg (price) > 10;
+```
+
+## IN and NOT IN
+```
+SELECT product_name FROM products WHERE product_name IN ('Electronics', 'Clothing', 'Books');
+SELECT product_name FROM products WHERE product_name NOT IN ('Electronics', 'Clothing', 'Books');
+```
+## EXISTS & NOT EXISTS
+- The result will include products that have at least one associated order.
+```
+SELECT product_name FROM products WHERE EXISTS ( SELECT 1 FROM customers WHERE customers.product_id = products.product_id );
+SELECT product_name FROM products WHERE NOT EXISTS ( SELECT 1 FROM customers WHERE customers.product_id = products.product_id );
+```
+
+## sub query
+```
+SELECT product_name, price
+FROM products
+WHERE price BETWEEN (SELECT MIN(price) FROM products) AND (SELECT MAX(price) FROM products);
+```
+
+## WITH
+- the "WITH" clause defines a temporary result set named "average_price" that calculates the average price from the "products" table. The main query then retrieves the product_name and price from the "products" table where the price is greater than the average price obtained from the CTE.
+```
+WITH average_price AS ( SELECT AVG(price) AS avg_price FROM products ) SELECT product_name, price FROM products WHERE price > (SELECT avg_price FROM average_price);
+```
+
+## UPDATE
+```
+UPDATE products SET price = price * 5 WHERE product_id = 1;
+```
+
+- The UNION operator is used to combine the result sets of two or more SELECT statements, eliminating duplicates. 
+```
+SELECT product_name, price FROM products WHERE price > 100 UNION SELECT product_name, price FROM products WHERE price < 50;
+```
+
+- The INTERSECT operator is used to retrieve the common rows between the result sets of two or more SELECT statements
+```
+SELECT product_name, price FROM products WHERE price > 100 INTERSECT SELECT product_name, price FROM products WHERE price < 200;
+```
+
+- The EXCEPT operator is used to retrieve the rows from the first SELECT statement that do not exist in the result set of the second SELECT statement.
+```
+SELECT product_name, price FROM products WHERE price > 100 EXCEPT SELECT product_name, price FROM products WHERE price < 200;
+```
+
+# NULL
+```
+select customer_id from products where customer_id is null;
+```
+
+# SOME
+- The "SOME" keyword in SQL is used to compare a value with a set of values returned by a subquery. It checks if the value satisfies the condition for at least one row in the subquery result. 
+```
+SELECT product_name, price FROM products WHERE price > SOME (SELECT price FROM products WHERE product_name = 'Electronics');
+```
+
+# ALL
+```
+SELECT product_name, price FROM products WHERE price > ALL (SELECT price FROM products WHERE product_name = 'Electronics');
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
