@@ -72,16 +72,19 @@ VALUES
 SELECT * FROM customers;
 SELECT * FROM sales.customers;
 ```
+
 # Alter Table
 - Rename
 ```
 ALTER TABLE sales.customers RENAME TO new_customers;
 ```
+
 - Add more cloumn
 ```
 ALTER TABLE sales.products
 ADD deliver BOOLEAN;
 ```
+
 - Drop Column
 ```
 ALTER TABLE sales.products
@@ -94,14 +97,22 @@ SELECT *
 FROM sales.customers
 WHERE customer_name = 'John Smith';
 ```
+
 ```
 SELECT *
 FROM sales.customers
 WHERE customer_name = 'John Smith' AND email = 'john.smith@example.com';
 ```
-SELECT product_name,price FROM products WHERE product_name = 'Widget A' AND price > '8.00';
-SELECT product_id, price FROM products;
 
+```
+SELECT product_name,price FROM products WHERE product_name = 'Widget A' AND price > '8.00';
+```
+
+```
+SELECT product_id, price FROM products;
+```
+
+```
 SELECT product_id,product_name, AVG(price) as avg_price FROM products GROUP BY product_name;
 ```
 
